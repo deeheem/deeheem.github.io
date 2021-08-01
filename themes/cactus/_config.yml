@@ -2,11 +2,6 @@
 # Content
 ##############################################################################
 
-# Link to a page that gives an overview of all your projects.
-# This can be an external link (e.g., to you GitHub profile) or to another
-# page within your website.
-projects_url: http://github.com/probberechts
-
 # Set the page direction to RTL or LTR. default is LTR. (if you set it 'rtl', the 'vazir' font will be loaded.)
 direction: ltr
 # Configure the navigation menu.
@@ -17,7 +12,9 @@ nav:
   home: /
   about: /about/
   articles: /archives/
-  projects: projects_url
+  category: /categories/
+  tag: /tags/
+  search: /search/
 
 
 # Links to your social media accounts.
@@ -25,10 +22,11 @@ nav:
 # (see https://fontawesome.com/icons?d=gallery&s=brands);
 # only 'mail' is an exception.
 social_links:
-  github: http://github.com/probberechts/cactus-dark
-  twitter: /
-  facebook: /
-  linkedin: /
+  github: https://github.com/deeheem
+  twitter: https://twitter.com/dimi2396
+  facebook: https://www.facebook.com/dimi.ansari/
+  linkedin: https://www.linkedin.com/in/deeheem-ansari-902aa6147/
+  medium: https://medium.com/@dimi.soty_61150
   mail: mailto:name@email.com
 
 # Customize the overview with displaying a tagcloud on the index page.
@@ -62,7 +60,7 @@ post:
 # Customize the copyright years
 # Note: if start_year/end_year not provided, will use current year.
 copyright:
-  start_year: 2016
+  start_year: 2017
   end_year:
 
 ##############################################################################
@@ -81,7 +79,7 @@ logo:
   enabled: true
   width: 50
   height: 50
-  url: /images/logo.png
+  url: /images/coffee.png
   gravatar: false
   grayout: true
 
@@ -99,7 +97,7 @@ favicon:
     url: /images/favicon.ico
     gravatar: false
   android:
-    url: /images/favicon-192x192.png
+    url: /images/favicon-32x32.png
     gravatar: false
   apple:
     url: /images/apple-touch-icon.png
@@ -140,16 +138,16 @@ open_graph:
 # Enable MathJax support for Latex
 mathjax:
   enabled: false
-  
+
 # Fill in your Disqus Comments Shortname to enable Disqus comments.
 disqus:
-  enabled: false
-  shortname: cactus-1
+  enabled: true
+  shortname: codecoffeecommit
 
 # Fill in your Google Analytics tracking ID to enable Google Analytics.
 google_analytics:
-  enabled: false
-  id: UA-86660611-1
+  enabled: true
+  id: UA-203770300-1
 
 # Fill in your Baidu Analytics tracking ID to enable Baidu Analytics.
 baidu_analytics:
