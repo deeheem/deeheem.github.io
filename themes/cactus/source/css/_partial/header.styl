@@ -6,6 +6,8 @@
     margin-top: 0
     margin-bottom: 0
     color: $color-text
+    /[blog-theme="opposite"] &
+      color: $opposite-color-text
     letter-spacing: .01em
     font-weight: 700
     font-style: normal
@@ -33,7 +35,10 @@
       -webkit-filter: grayscale(100%)
 
   #nav
+    display: flex
     color: $color-accent-1
+    /[blog-theme="opposite"] &
+      color: $opposite-color-accent-1
     letter-spacing: .01em
     font-weight: 200
     font-style: normal
@@ -48,15 +53,21 @@
       a
         margin-right: 15px
         color: $color-accent-1
+        /[blog-theme="opposite"] &
+          color: $opposite-color-accent-1
 
       a:hover
         underline(5px, $color-accent-1)
+        /[blog-theme="opposite"] &
+          underline(5px, $opposite-color-accent-1)
 
       li
         display: inline-block
         margin-right: 15px
         border-right: 1px dotted
         border-color: $color-accent-1
+        /[blog-theme="opposite"] &
+          border-color: $opposite-color-accent-1
         vertical-align: middle
 
       .icon
@@ -68,6 +79,30 @@
 
         a
           margin-right: 0
+
+      li:nth-last-child(2)
+        margin-right: 0
+        border-right: 0
+
+        a
+          margin-right: 0
+
+    .theme-desktop
+      margin-left: auto
+      cursor: pointer
+
+    .theme-desktop input[type="checkbox"],
+    .theme-desktop .checked
+      display: none
+
+    .theme-desktop input[type="checkbox"]:checked ~ .checked
+      display: inline-block
+
+    .theme-desktop input[type="checkbox"]:checked ~ .unchecked
+      display: none
+
+    .theme-mobile
+      display: none
 
 if $logo-grayout
   #header:hover
@@ -107,3 +142,20 @@ if $logo-grayout
       padding-top: 1rem
       padding-left: $logo-width + 20px
       font-size: 1rem
+
+    .theme-desktop
+      display: none
+
+    .theme-mobile
+      display: block
+      margin-left: auto
+
+    .theme-mobile input[type="checkbox"],
+    .theme-mobile .checked
+      display: none
+
+    .theme-mobile input[type="checkbox"]:checked ~ .checked
+      display: inline-block
+
+    .theme-mobile input[type="checkbox"]:checked ~ .unchecked
+      display: none

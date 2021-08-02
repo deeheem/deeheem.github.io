@@ -23,6 +23,18 @@
       <% for (var i in theme.nav) { %> 
         <li><a href="<%- url_for(theme.nav[i]) %>"><%= __('nav.'+i).replace("nav.", "") %></a></li>
       <% } %>
+      <li>
+        <label class="theme-mobile">
+          <input id="control-theme-mobile" type="checkbox">
+          <i class="fa fa-sun unchecked"></i>
+          <i class="fa fa-moon checked"></i>
+        </label>
+      </li>
     </ul>
+    <label class="theme-desktop">
+      <input id="control-theme-desktop" type="checkbox">
+      <i class="fa fa-sun unchecked"></i>
+      <i class="fa fa-moon checked"></i>
+    </label>
   </div>
 </header>

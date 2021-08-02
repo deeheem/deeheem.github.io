@@ -4,6 +4,8 @@
   margin-bottom: 10px
   width: 100%
   color: $color-meta
+  /[blog-theme="opposite"] &
+    color: $opposite-color-meta
   vertical-align: top
   text-align: center
   font-size: 12px
@@ -18,6 +20,8 @@
     margin-right: 15px
     border-right: 1px solid
     border-color: $color-border
+    /[blog-theme="opposite"] &
+      border-color: $opposite-color-border
     vertical-align: middle
 
     a
@@ -32,11 +36,15 @@
 
   a
     color: $color-meta
+    /[blog-theme="opposite"] &
+      color: $opposite-color-meta
     text-decoration: underline
     background-image: none
 
   a:hover
     color: lighten($color-meta, 20%)
+    /[blog-theme="opposite"] &
+      color: lighten($opposite-color-meta, 20%)
 
   .footer-left
     height: 20px

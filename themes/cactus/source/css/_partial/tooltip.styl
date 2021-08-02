@@ -10,6 +10,8 @@
   padding: .2em .5em
   -webkit-font-smoothing: subpixel-antialiased
   color: $color-background
+  /[blog-theme="opposite"] &
+    color: $opposite-color-background
   font-display: swap // @stylint ignore
   font-weight: 400
   font-size: $font-size * 0.8
@@ -21,6 +23,8 @@
   white-space: pre
   content: attr(aria-label)
   background: $color-text
+  /[blog-theme="opposite"] &
+    background: $opposite-color-text
   border-radius: 3px
   opacity: 0
   
@@ -32,6 +36,8 @@
   width: 0
   height: 0
   color: $color-text
+  /[blog-theme="opposite"] &
+    color: $opposite-color-text
   pointer-events: none
   content: ''
   border: 6px solid transparent
@@ -70,6 +76,8 @@
     bottom: -7px
     margin-right: -6px
     border-bottom-color: $color-text
+    /[blog-theme="opposite"] &
+      border-bottom-color: $opposite-color-text
 .tooltipped-sw::after
   margin-right: -16px
   

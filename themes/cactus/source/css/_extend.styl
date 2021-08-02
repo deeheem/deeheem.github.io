@@ -4,6 +4,8 @@ $base-style
     margin-top: 3rem
     margin-bottom: 1rem
     color: $color-accent-1
+    /[blog-theme="opposite"] &
+      color: $opposite-color-accent-1
     letter-spacing: .01em
     font-weight: 700
     font-style: normal
@@ -17,6 +19,8 @@ $base-style
     margin-top: 2rem
     margin-bottom: .5rem
     color: $color-accent-2
+    /[blog-theme="opposite"] &
+      color: $opposite-color-accent-2
     text-transform: none
     letter-spacing: normal
     font-weight: bold
@@ -24,6 +28,8 @@ $base-style
 
   h3
     color: $color-accent-2
+    /[blog-theme="opposite"] &
+      color: $opposite-color-accent-2
     text-decoration: underline
     font-weight: bold
     font-size: .9rem
@@ -34,6 +40,8 @@ $base-style
     display: inline
     text-decoration: none
     color: $color-accent-3
+    /[blog-theme="opposite"] &
+      color: $opposite-color-accent-3
     font-weight: bold
     font-size: .9rem
 
@@ -46,6 +54,8 @@ $base-style
 
   hr
     border: .5px dashed $color-accent-3
+    /[blog-theme="opposite"] &
+      border: .5px dashed $opposite-color-accent-3
     opacity: .5
     margin: 0
     margin-top: 20px
@@ -107,7 +117,11 @@ $base-style
   th
     padding: 8px
     border-bottom: 1px dashed $color-border
+    /[blog-theme="opposite"] &
+      border-bottom: 1px dashed $opposite-color-border
     color: $color-accent-2
+    /[blog-theme="opposite"] &
+      color: $opposite-color-accent-2
     font-weight: bold
     font-size: $font-size - 1px
 

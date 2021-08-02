@@ -13,6 +13,8 @@ article
 
     .meta *
       color: $color-accent-3
+      /[blog-theme="opposite"] &
+        color: $opposite-color-accent-3
       font-size: .85rem
 
     .author
@@ -29,6 +31,8 @@ article
       top: -4px
       left: -1rem
       color: $color-accent-1
+      /[blog-theme="opposite"] &
+        color: $opposite-color-accent-1
       content: "#"
       font-weight: bold
       font-size: 1.2rem
@@ -60,6 +64,8 @@ article
       padding: .5em 10px
       background: inherit
       color: $color-quote
+      /[blog-theme="opposite"] &
+        color: $opposite-color-quote
       quotes: "\201C" "\201D" "\2018" "\2019"
       font-weight: bold
 
@@ -69,6 +75,8 @@ article
       &:before
         margin-right: .25em
         color: $color-quote
+        /[blog-theme="opposite"] &
+          color: $opposite-color-quote
         content: "\201C"
         vertical-align: -.4em
         font-size: 2em
@@ -77,15 +85,25 @@ article
       footer
         margin: line-height 0
         color: $color-meta
+        /[blog-theme="opposite"] &
+          color: $opposite-color-meta
         font-size: 12px
 
         a
           background-image: linear-gradient(transparent, transparent 5px, $color-meta 5px, $color-meta)
+          /[blog-theme="opposite"] &
+            background-image: linear-gradient(transparent, transparent 5px, $opposite-color-meta 5px, $opposite-color-meta)
           color: $color-meta
+          /[blog-theme="opposite"] &
+            color: $opposite-color-meta
 
         a:hover
           background-image: linear-gradient(transparent, transparent 4px, lighten($color-meta, 20%) 4px, lighten($color-meta, 20%))
+          /[blog-theme="opposite"] &
+            background-image: linear-gradient(transparent, transparent 4px, lighten($opposite-color-meta, 20%) 4px, lighten($opposite-color-meta, 20%))
           color: lighten($color-meta, 20%)
+          /[blog-theme="opposite"] &
+            color: lighten($opposite-color-meta, 20%)
 
         cite
           &:before
@@ -110,6 +128,8 @@ article
       display: block
       margin-top: .5em
       color: $color-meta
+      /[blog-theme="opposite"] &
+        color: $opposite-color-meta
       text-align: center
       font-size: .9em
 
@@ -123,10 +143,14 @@ article
     &:before
       content: "#"
     underline(10px, $color-link)
+    /[blog-theme="opposite"] &
+      underline(10px, $opposite-color-link)
 
 .article-category
   .category-link
     underline(10px, $color-link)
+    /[blog-theme="opposite"] &
+      underline(10px, $opposite-color-link)
 
 @media (min-width: 480px)
   .article-tag,

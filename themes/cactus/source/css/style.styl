@@ -15,6 +15,8 @@ html
   padding: 0
   height: 100%
   border-top: 2px solid $color-text
+  /[blog-theme="opposite"] &
+    border-top: 2px solid $opposite-color-text
   -webkit-text-size-adjust: 100%
   -ms-text-size-adjust: 100%
 
@@ -22,7 +24,11 @@ body
   margin: 0
   height: 100%
   background-color: $color-background
+  /[blog-theme="opposite"] &
+    background-color: $opposite-color-background
   color: $color-text
+  /[blog-theme="opposite"] &
+    color: $opposite-color-text
   font-display: swap // @stylint ignore
   font-weight: 400
   font-size: $font-size
@@ -50,18 +56,26 @@ body
 
   a
     color: $color-text
+    /[blog-theme="opposite"] &
+      color: $opposite-color-text
     text-decoration: none
 
     underline(5px, $color-text)
+    /[blog-theme="opposite"] &
+      underline(5px, $opposite-color-text)
 
     &:hover
       background-image: linear-gradient(transparent, transparent 4px, $color-link 4px, $color-link)
+      /[blog-theme="opposite"] &
+        background-image: linear-gradient(transparent, transparent 4px, $opposite-color-link 4px, $opposite-color-link)
 
   a.icon
     background: none
 
     &:hover
       color: $color-link
+      /[blog-theme="opposite"] &
+        color: $opposite-color-link
 
   h1 a, .h1 a, h2 a, h3 a, h4 a, h5 a, h6 a
     background: none
@@ -70,6 +84,8 @@ body
 
   h1 a:hover, .h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover
     underline(6px, $color-link)
+    /[blog-theme="opposite"] &
+      underline(6px, $opposite-color-link)
 
   h6
     a
@@ -80,6 +96,8 @@ body
   h6
     a:hover
       underline(6px, $color-link)
+      /[blog-theme="opposite"] &
+        underline(6px, $opposite-color-link)
 
 @media (min-width: 540px)
   .image-wrap
@@ -125,12 +143,16 @@ body
 @import "_partial/categories"
 // Code
 @import "_highlight/" + $highlight
+/[blog-theme="opposite"] &
+  @import "_highlight/" + $opposite-highlight
 
 pre
   overflow-x: auto
   padding: 10px 15px
   padding-bottom: 0
   border: 1px dotted $color-border
+  /[blog-theme="opposite"] &
+    border: 1px dotted $opposite-color-border
   border-radius: 4px
   font-size: 13px
   font-family: $font-family-mono
@@ -145,6 +167,8 @@ pre
 code
   padding: 0 5px
   border: 1px dotted $color-border
+  /[blog-theme="opposite"] &
+    border-top: 1px dotted $opposite-color-border
   border-radius: 2px
   -webkit-border-radius: 2px
 
@@ -161,19 +185,27 @@ code
   figcaption
     margin: -5px 0 5px
     color: $color-meta-code
+    /[blog-theme="opposite"] &
+      color: $opposite-color-meta-code
     font-size: .9em
     transform: scale(1)
 
     a
       float: right
       color: $color-meta-code
+      /[blog-theme="opposite"] &
+        color: $opposite-color-meta-code
       font-style: italic
       font-size: .8em
 
       underline(10px, $color-link)
+      /[blog-theme="opposite"] &
+        underline(10px, $opposite-color-link)
 
     a:hover
       color: lighten($color-meta-code, 20%)
+      /[blog-theme="opposite"] &
+        color: lighten($opposite-color-meta-code, 20%)
 
     &:before, content: ""
       display: table
@@ -193,6 +225,8 @@ code
     transition: opacity 0.2s ease-in
     &:hover
       color: $color-accent-1
+      /[blog-theme="opposite"] &
+        color: $opposite-color-accent-1
 
   pre
     margin: 0

@@ -3,15 +3,23 @@
   width: 100%
   outline: none
   border: solid 1px $color-accent-3
+  /[blog-theme="opposite"] &
+    border: solid 1px $opposite-color-accent-3
   border-radius: 5px
   background-color: $color-background
+  /[blog-theme="opposite"] &
+    background-color: $opposite-color-background
   color: $color-text
+  /[blog-theme="opposite"] &
+    color: $opposite-color-text
   font-size: 1.2rem
   -webkit-border-radius: 5px
   -moz-border-radius: 5px
 
   &:focus
     border: solid 1px $color-accent-1
+    /[blog-theme="opposite"] &
+      border: solid 1px $opposite-color-accent-1
 
 #search-result
   ul.search-result-list
@@ -24,6 +32,8 @@
   a.search-result-title
     background-image: none
     color: $color-text
+    /[blog-theme="opposite"] &
+      color: $opposite-color-text
     text-transform: capitalize
     font-weight: bold
     line-height: 1.2
@@ -37,10 +47,16 @@
 
   em.search-keyword
     border-bottom: 1px dashed $color-link
+    /[blog-theme="opposite"] &
+      border-bottom: 1px dashed $opposite-color-link
     color: $color-link
+    /[blog-theme="opposite"] &
+      color: $opposite-color-link
     font-weight: bold
 
 .search-no-result
   display: none
   padding-bottom: .5em
   color: $color-text
+  /[blog-theme="opposite"] &
+    color: $opposite-color-text

@@ -111,3 +111,63 @@ $(document).ready(function() {
     }
   }
 });
+
+
+// ______ start code for handling theme toggle ______
+
+function detectColorScheme() {
+    var theme = "default"; // default theme is picked up from _config.yml property 'colorscheme'
+
+    // get last used theme from local cache
+    if(localStorage.getItem("theme")){
+        if(localStorage.getItem("theme") === "opposite"){
+            theme = "opposite";
+        }
+    }
+
+    // set detected theme
+    if (theme === "default") {
+        setThemeDefault();
+    } else {
+        setThemeOpposite();
+    }
+}
+
+const toggleThemeMobile = document.querySelector('input#control-theme-mobile[type="checkbox"]')
+const toggleThemeDesktop = document.querySelector('input#control-theme-desktop[type="checkbox"]')
+
+function setThemeDefault() {
+    localStorage.setItem('theme', 'default');
+    document.documentElement.setAttribute('blog-theme', 'default');
+    toggleThemeMobile.checked = true;
+    toggleThemeDesktop.checked = true;
+}
+function setThemeOpposite() {
+    localStorage.setItem('theme', 'opposite');
+    document.documentElement.setAttribute('blog-theme', 'opposite');
+    toggleThemeMobile.checked = false;
+    toggleThemeDesktop.checked = false;
+}
+
+// call theme detection
+detectColorScheme();
+
+// Listener for theme change by toggle on mobile
+toggleThemeMobile.addEventListener('change', function(e) {
+    if (e.target.checked) {
+        setThemeDefault();
+    } else {
+        setThemeOpposite();
+    }
+}, false);
+
+// Listener for theme change by toggle on desktop
+toggleThemeDesktop.addEventListener('change', function(e) {
+    if (e.target.checked) {
+        setThemeDefault();
+    } else {
+        setThemeOpposite();
+    }
+}, false);
+
+// ______ end code for handling theme toggle ______

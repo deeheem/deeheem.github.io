@@ -6,6 +6,8 @@
 
   .page-number
     color: $color-text
+    /[blog-theme="opposite"] &
+      color: $opposite-color-text
     font-size: .8rem
 
   a
@@ -14,6 +16,8 @@
     // background-color: $color-accent-1
     background-image: none
     color: $color-text
+    /[blog-theme="opposite"] &
+      color: $opposite-color-text
     text-decoration: none
 
   a:hover
@@ -21,3 +25,5 @@
 
   a:hover:not(.active)
     color: $color-accent-2
+    /[blog-theme="opposite"] &
+      color: $opposite-color-accent-2
