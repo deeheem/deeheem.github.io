@@ -105,3 +105,11 @@ theme: cactus
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: ''
+
+# Github Emojis
+## Emoji Cheat Sheet: https://www.webfx.com/tools/emoji-cheat-sheet/
+emoji:
+  enable: true
+  className: github-emoji
+  styles:
+  customEmojis:
