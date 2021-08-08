@@ -104,7 +104,9 @@ theme: cactus
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repo: git@github.com:deeheem/deeheem.github.io.git
+  branch: master
 
 # Github Emojis
 ## Emoji Cheat Sheet: https://www.webfx.com/tools/emoji-cheat-sheet/
