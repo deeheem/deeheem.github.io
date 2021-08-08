@@ -11,7 +11,7 @@ direction: ltr
 nav:
   home: /
   about: /about/
-  articles: /archives/
+  articles: /blog/
   category: /categories/
   tag: /tags/
   search: /search/
