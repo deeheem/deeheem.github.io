@@ -1,0 +1,14 @@
+# Local Deployment
+npm run server
+hexo server
+
+# Create new page
+hexo new page about
+
+# Create new post
+hexo new post "hello world"
+
+# GitHub Deployment
+hexo clean
+hexo generate
+hexo deploy
