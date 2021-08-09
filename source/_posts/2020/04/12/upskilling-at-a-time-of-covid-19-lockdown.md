@@ -71,9 +71,9 @@ I’m sure you had a boring software development course in college, which taught
   </div>
 </div>
 
-Now that we are talking about SOLID principles, it makes sense to explore various frameworks. You can explore [Spring](https://spring.io/), which is a very powerful Java framework that has simplified Java EE development and made developers more productive.
+Now that we are talking about <acronym title="Single-responsibility principle, Open–closed principle, Liskov substitution principle, Interface segregation principle, Dependency inversion principle">SOLID</acronym> principles, it makes sense to explore various frameworks. You can explore [Spring](https://spring.io/), which is a very powerful Java framework that has simplified Java EE development and made developers more productive.
 
-The team you may join might not be using all features of Spring, maybe it’s using [Google Guice](https://github.com/google/guice) as an IOC, [Jersey](https://jersey.github.io/) for REST services and [Apache Cayenne](https://cayenne.apache.org/) as an ORM. But this is something very specific which you can easily catch-up to, after having a piece of basic knowledge.
+The team you may join might not be using all features of Spring, maybe it’s using [Google Guice](https://github.com/google/guice) as an <acronym title="Inversion Of Control">IOC</acronym>, [Jersey](https://jersey.github.io/) for <acronym title="Representational State Transfer">REST</acronym> services and [Apache Cayenne](https://cayenne.apache.org/) as an <acronym title="Object-Relational Mapping">ORM</acronym>. But this is something very specific which you can easily catch-up to, after having a piece of basic knowledge.
 
 ### Deployment
 

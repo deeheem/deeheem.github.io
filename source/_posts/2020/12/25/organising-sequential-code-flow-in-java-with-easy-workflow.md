@@ -2,7 +2,8 @@
 title: Organising Sequential Code Flow in Java with Easy-Workflow
 date: 2020-12-25 16:51:18
 category:
-- Programming
+- Languages
+- Java
 tags:
 - "#java"
 - "#spring"

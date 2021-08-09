@@ -34,9 +34,7 @@ Explanation: The answer is “abc”, with the length of 3.
 
 Use HashSet to store the characters in the current window [i, j). Then we slide the index j to the right. If it is not in the HashSet, we slide j further. Doing so until s[j] is already in the HashSet. At this point, we found the maximum size of substrings without duplicate characters start with index i. If we do this for all i, we get our answer.
 
-### Dry Run
-
-```text
+{% codeblock "Dry Run : Longest Substring Without Repeating Characters" lang:text %}
 abcabcbb
 i
 j 
@@ -87,11 +85,9 @@ abcabcbb
       ij
 repeating character found at j, so i++ and remove char at i from set
 set = []
-```
+{% endcodeblock %}
 
-### Code
-
-```java
+{% codeblock "Code : Longest Substring Without Repeating Characters" lang:java https://gist.github.com/deeheem/776ab95a6f7aca5a641dac019f555f0a gist.java %}
   public int lengthOfLongestSubString(String s) {
     int n = s.length();
     Set<Character> set = new HashSet<>();
@@ -108,7 +104,7 @@ set = []
     }
     return ans;
   }
-```
+{% endcodeblock %}
 
 ## Longest Substring with At Most Two Distinct Characters
 
@@ -126,9 +122,7 @@ Explanation: The answer is “aab”, with the length of 3.
 
 We use a sliding window that always satisfies the condition where there are always at most two distinct characters in it. When we add a new character that breaks this condition, we move the starting pointer of our string.
 
-### Dry Run
-
-```text
+{% codeblock "Dry Run : Longest Substring with At Most Two Distinct Characters" lang:text %}
 aabcd
 i
 j
@@ -157,11 +151,9 @@ more than two distict characters found, i++
 aabcd
    ij
 ans = max(3, 4-3+1) = 3
-```
+{% endcodeblock %}
 
-### Code
-
-```java
+{% codeblock "Code : Longest Substring with At Most Two Distinct Characters" lang:java https://gist.github.com/deeheem/098651e2f4bcee6da355b2b28e498be8 gist.java %}
     public int lengthOfLongestSubStringTwoDistinct(String s) {
         int n = s.length();
         int i = 0, j = -1, ans = 0;
@@ -178,7 +170,7 @@ ans = max(3, 4-3+1) = 3
         }
         return Math.max(ans, n - i);
     }
-```
+{% endcodeblock %}
 
 ## Longest Substring with At Most K Distinct Characters
 
@@ -196,9 +188,7 @@ Explanation: The answer is “ece”, with the length of 3.
 
 This is similar to solving the previous problem with at most 2 distinct characters, but the only difference now is that we need to track the number of distinct characters as well, for which we use the help of a map.
 
-### Code
-
-```java
+{% codeblock "Code : Longest Substring with At Most K Distinct Characters" lang:java https://gist.github.com/deeheem/b7d83b141c85bc3c9a3111df9faed98d gist.java %}
     public int lengthOfLongestSubStringKDistinct(String s) {
         int n = s.length();
         int[] count = new int[256];
@@ -220,7 +210,7 @@ This is similar to solving the previous problem with at most 2 distinct characte
         }
         return ans;
     }
-```
+{% endcodeblock %}
 
 ## Longest Substring with exact K distinct Characters
 
@@ -236,11 +226,13 @@ Explanation: Subarrays formed with exactly 2 different integers: [1,2], [2,1], [
 
 ### Approach 1 (Smart Work)
 
-If we are aware of how to find subarrays with “at most k different characters”, then we can extend the above algorithm to find the number of subarrays with “exactly k different characters” using the equation: `exactly(K) = atMost(K) — atMost(K-1)`
+If we are aware of how to find subarrays with “at most k different characters”, then we can extend the above algorithm to find the number of subarrays with “exactly k different characters” using the equation: 
 
-### Code for Approach 1
+<div align="center">
+  <code>exactly(K) = atMost(K) — atMost(K-1)</code>
+</div>
 
-```java
+{% codeblock "Code : Longest Substring with exact K distinct Characters" lang:java https://gist.github.com/deeheem/0e8491c55cb91207e5d478e4a8000c68 gist.java %}
   public int lengthOfLongestSubStringAtMostKDistinct(String s, int k) {
     int n = s.length();
     int[] count = new int[256];
@@ -266,7 +258,7 @@ If we are aware of how to find subarrays with “at most k different characters�
   public int lengthOfLongestSubStringKDistinctIntegers(String s, int k) {
     return lengthOfLongestSubStringAtMostKDistinct(s, k)
         - lengthOfLongestSubStringAtMostKDistinct(s, k - 1);
-```
+{% endcodeblock %}
 
 ### Approach 2 (Hard Work)
 

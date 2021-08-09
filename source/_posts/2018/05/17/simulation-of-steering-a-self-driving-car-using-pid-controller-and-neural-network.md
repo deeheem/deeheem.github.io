@@ -16,6 +16,6 @@ tags:
 
 ## Abstract
 
-Over the last few years, self-driving vehicles have expanded dramatically. They look promising in decreasing traffic accidents and congestion on roads. In order for this approach to work, simulations tend to be a cheaper, more efficient, and a safer way than live testing. In this paper, we present a simulator that tests the self-driving car's CNN model in a virtual environment. To avoid the hassle of collecting huge amount of training and testing data for preliminary testing, we also propose a method to collect data (images, steering value and throttle value) using PID controllers in the virtual environment itself.
+Over the last few years, self-driving vehicles have expanded dramatically. They look promising in decreasing traffic accidents and congestion on roads. In order for this approach to work, simulations tend to be a cheaper, more efficient, and a safer way than live testing. In this paper, we present a simulator that tests the self-driving car's <acronym title="Convolution Neural Network">CNN</acronym> model in a virtual environment. To avoid the hassle of collecting huge amount of training and testing data for preliminary testing, we also propose a method to collect data (images, steering value and throttle value) using <acronym title="Proportional, Integral, Derivative">PID</acronym> controllers in the virtual environment itself.
 
 ![](image.jpeg)

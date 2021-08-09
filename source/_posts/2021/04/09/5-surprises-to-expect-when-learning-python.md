@@ -2,7 +2,8 @@
 title: 5 Surprises to expect when learning Python
 date: 2021-04-09 20:26:42
 category:
-- Programming
+- Languages
+- Python
 tags:
 - "#python"
 - "#java"

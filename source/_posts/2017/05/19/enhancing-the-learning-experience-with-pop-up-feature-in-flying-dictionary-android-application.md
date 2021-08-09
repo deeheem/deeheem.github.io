@@ -21,4 +21,4 @@ We develop an Android application “Flying Dictionary” which is an offline po
 
 ## App Demo
 
-[<img src="thumbnail.png" width="450"/>](https://www.youtube.com/watch?v=YR0EqhVdUSc&t=3s&pp=sAQA)
+{% youtube YR0EqhVdUSc %}
