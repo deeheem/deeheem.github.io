@@ -7,8 +7,6 @@ tags:
 - "#sliding_window"
 ---
 
-## Introduction
-
 <div style="clear: both;">
   <div style="float: left; margin-right: 1em;">
     <img src="image.gif" width="250"/>
@@ -17,6 +15,14 @@ tags:
     In this blog, I am going to consolidate all the problems related to Sliding Window Algorithm which I have come across, from beginner level to advanced level. These are some notes which I found from my placement days, I hope they will help in advancing your knowledge from a basic to an advanced level. For an introductory article on this algorithm, you can go through <a href="https://www.geeksforgeeks.org/window-sliding-technique/">this</a>.
   </div>
 </div>
+
+<p>
+
+- [Longest Substring Without Repeating Characters](#Longest-Substring-Without-Repeating-Characters)
+- [Longest Substring with At Most Two Distinct Characters](#Longest-Substring-with-At-Most-Two-Distinct-Characters)
+- [Longest Substring with At Most K Distinct Characters](#Longest-Substring-with-At-Most-K-Distinct-Characters)
+- [Longest Substring with exact K distinct Characters](#Longest-Substring-with-exact-K-distinct-Characters)
+
 
 ## Longest Substring Without Repeating Characters
 

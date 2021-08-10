@@ -117,6 +117,15 @@ An enum to represent the status in which the workflow could have ended like comp
 
 ## Usage
 
+Let's take a look at three examples in this section:
+
+- [Simple Workflow with XML-based Configuration](#Simple-Workflow-with-XML-based-Configuration)
+- [Complex Workflow with XML-based Configuration](#Complex-Workflow-with-XML-based-Configuration)
+- [Real-World Workflow with Annotation-based Configuration](#Real-World-Workflow-with-Annotation-based-Configuration)
+
+And finally:
+- [Starting Workflow Execution](#Starting-Workflow-Execution) (common for all the three examples above)
+
 ### Simple Workflow with XML-based Configuration
 
 Let's take an example of a very simple workflow where three activities run in a sequential manner, and any error encountered while running these activities needs to be handled gracefully. We will explore the implementation with the help of an XML-based configuration. 
