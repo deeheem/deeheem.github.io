@@ -115,3 +115,9 @@ emoji:
   className: github-emoji
   styles:
   customEmojis:
+
+# Lazy Load Images
+## https://www.npmjs.com/package/hexo-lazyload-image
+lazyload:
+  enable: true
+  preloadRatio: 3
