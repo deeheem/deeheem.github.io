@@ -130,7 +130,7 @@ And finally:
 
 Let's take an example of a very simple workflow where three activities run in a sequential manner, and any error encountered while running these activities needs to be handled gracefully. We will explore the implementation with the help of an XML-based configuration. 
 
-![](SimpleWorkflow.png)
+{% zoom /blog/organising-sequential-code-flow-in-java-with-easy-workflow/SimpleWorkflow.png %}
 
 #### beans.xml
 
@@ -291,7 +291,7 @@ public class SimpleErrorHandler implements ErrorHandler {
 
 Now let's take a more complicated example consisting of parallel activity runs, in a combination with some activities which run in sequence.
 
-![](ComplexWorkflow.png)
+{% zoom /blog/organising-sequential-code-flow-in-java-with-easy-workflow/ComplexWorkflow.png %}
 
 As shown in the diagram above, two activities run in parallel and once both of them have completed their execution, the flow then passes to the other two activities. Notice that the error handlers are different for concurrent and sequential executions.
 
@@ -505,7 +505,7 @@ Now as always, the problem has many nuances and can be solved in multiple ways. 
 If we think of the Easy-Workflow approach, we can easily break down the problem in the following way:
 
 
-![](RealWorkflow.png)
+{% zoom /blog/organising-sequential-code-flow-in-java-with-easy-workflow/RealWorkflow.png %}
 
 Makes sense? 
 
@@ -818,8 +818,7 @@ Easy-Workflow maintains an in-memory state for now. This can be persisted after 
 
 ### Manual Intervention
 
-Easy-Workflow is not suitable for workflows requiring manual intervention in some of the activities like pausing -> noti
-fying stakeholders -> seeking approvals -> then continuing the rest of the workflow on getting the approvals.
+Easy-Workflow is not suitable for workflows requiring manual intervention in some of the activities like pausing -> notifying stakeholders -> seeking approvals -> then continuing the rest of the workflow on getting the approvals.
 
 ### Distributed Workflow
 

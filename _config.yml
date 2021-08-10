@@ -119,5 +119,16 @@ emoji:
 # Lazy Load Images
 ## https://www.npmjs.com/package/hexo-lazyload-image
 lazyload:
-  enable: true
+  enable: false
   preloadRatio: 3
+
+# Photo Zoom
+## https://github.com/SSARCandy/hexo-tag-photozoom
+photozoom:
+  enable: true
+  # Lower priority means that it will be executed first.
+  priority: 10
+  # Show caption at the bottom of photo, default is "true"
+  caption: false
+  # Class name of caption, default is "zoom-initial-caption"
+  caption_class: 'my-caption'
