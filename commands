@@ -12,3 +12,6 @@ hexo new post "hello world"
 hexo clean
 hexo generate
 hexo deploy
+
+# Check links
+npx hexo check-links
