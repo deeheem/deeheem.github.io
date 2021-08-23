@@ -1,7 +1,10 @@
 ---
 title: "OAuth for Dummies [Part 2] OAuth in Detail"
 date: 2021-08-22 18:57:15
+category:
+- Security
 tags:
+- "#oauth"
 ---
 
 _:grey_exclamation: This is Part 2 of a two-part blog series on OAuth._

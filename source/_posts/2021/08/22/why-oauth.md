@@ -1,7 +1,10 @@
 ---
 title: "OAuth for Dummies [Part 1] Why OAuth"
 date: 2021-08-22 18:56:59
+category:
+- Security
 tags:
+- "#oauth"
 ---
 
 _:grey_exclamation: This is Part 1 of a two-part blog series on OAuth._
