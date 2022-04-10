@@ -1,0 +1,404 @@
+<!DOCTYPE html><html lang="en"><head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <meta name="description" content="IntroductionExperienced engineers will agree how important writing tests is, and most of the time even prevent a Pull Request from going through when the appropriate tests are not added/modified. With">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Writing Mockable Code in Go">
+<meta property="og:url" content="http://codecoffeecommit.com/blog/writing-mockable-code-in-go/index.html">
+<meta property="og:site_name" content="Code Coffee Commit">
+<meta property="og:description" content="IntroductionExperienced engineers will agree how important writing tests is, and most of the time even prevent a Pull Request from going through when the appropriate tests are not added/modified. With">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-09-19T17:36:32.000Z">
+<meta property="article:modified_time" content="2022-04-10T08:02:51.502Z">
+<meta property="article:author" content="Deeheem Ansari">
+<meta property="article:tag" content="#go">
+<meta property="article:tag" content="#testing">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Writing Mockable Code in Go</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" "top"="" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post " href="/blog/oauth-explained/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/&amp;text=Writing Mockable Code in Go"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/&amp;title=Writing Mockable Code in Go"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/&amp;is_video=false&amp;description=Writing Mockable Code in Go"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Writing Mockable Code in Go&amp;body=Check out this article: http://codecoffeecommit.com/blog/writing-mockable-code-in-go/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/&amp;title=Writing Mockable Code in Go"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/&amp;title=Writing Mockable Code in Go"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/&amp;title=Writing Mockable Code in Go"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/&amp;title=Writing Mockable Code in Go"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/&amp;name=Writing Mockable Code in Go&amp;description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/&amp;t=Writing Mockable Code in Go"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tasting-read-Testing-Coffee"><span class="toc-number">2.</span> <span class="toc-text">Tasting (read: Testing) Coffee</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Code-Walkthrough"><span class="toc-number">2.1.</span> <span class="toc-text">Code Walkthrough</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Basic-Test"><span class="toc-number">2.2.</span> <span class="toc-text">Basic Test</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Adding-struct"><span class="toc-number">2.3.</span> <span class="toc-text">Adding struct</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Adding-interface"><span class="toc-number">2.4.</span> <span class="toc-text">Adding interface</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Modifying-the-test"><span class="toc-number">2.5.</span> <span class="toc-text">Modifying the test</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Making-code-coverage-100"><span class="toc-number">2.6.</span> <span class="toc-text">Making code coverage 100%</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Learnings"><span class="toc-number">3.</span> <span class="toc-text">Learnings</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mocking-Frameworks"><span class="toc-number">4.</span> <span class="toc-text">Mocking Frameworks</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Need-for-Mocking-Frameworks"><span class="toc-number">4.1.</span> <span class="toc-text">Need for Mocking Frameworks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mocking-Frameworks-in-Go"><span class="toc-number">4.2.</span> <span class="toc-text">Mocking Frameworks in Go</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Writing Mockable Code in Go
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">Deeheem Ansari</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-09-19T17:36:32.000Z" itemprop="datePublished">2021-09-19</time>
+        
+      
+    </div>
+
+
+      <span class="article-time">
+        <i class="fa fa-clock"></i>
+        11 min read
+      </span>
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Languages/">Languages</a> › <a class="category-link" href="/categories/Languages/Go/">Go</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/go/" rel="tag">#go</a>, <a class="tag-link-link" href="/tags/testing/" rel="tag">#testing</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Experienced engineers will agree how important writing tests is, and most of the time even prevent a Pull Request from going through when the appropriate tests are not added/modified.</p>
+<p>With tests being so important, we need to understand how to write testable/mockable code. If you are new to mocking, you can read the basics first, <a target="_blank" rel="noopener" href="https://grails.org/blog/2018-06-22.html">this</a> is a good reference blog to start with. </p>
+<p>Let’s identify the testing best practices in the next section, with the help of a microservice that exposes a single endpoint <code>/coffee</code> and returns a coffee type.</p>
+<h2 id="Tasting-read-Testing-Coffee"><a href="#Tasting-read-Testing-Coffee" class="headerlink" title="Tasting (read: Testing) Coffee"></a>Tasting (read: Testing) Coffee</h2><h3 id="Code-Walkthrough"><a href="#Code-Walkthrough" class="headerlink" title="Code Walkthrough"></a>Code Walkthrough</h3><p>We have a <code>main.go</code> file from where the code flow begins:</p>
+<figure class="highlight golang"><figcaption><span>main.go</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"github.com/gin-gonic/gin"</span></span><br><span class="line">	<span class="string">"github.com/deeheem/goland-unit-test/code/controllers"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	router = gin.Default()</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> {</span><br><span class="line">	router.GET(<span class="string">"/coffee"</span>, controllers.GetCoffee)</span><br><span class="line">	router.Run(<span class="string">":8080"</span>)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>The <code>GetCoffee()</code> function in <code>coffee_controller.go</code> interacts with the appropriate service:</p>
+<figure class="highlight golang"><figcaption><span>coffee_controller.go</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> controllers</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"net/http"</span></span><br><span class="line">    <span class="string">"github.com/deeheem/goland-unit-test/code/services"</span></span><br><span class="line">    <span class="string">"github.com/gin-gonic/gin"</span></span><br><span class="line"> )</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">GetCoffee</span><span class="params">(c *gin.Context)</span></span> {</span><br><span class="line">	result, err := services.HandleCoffee()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> {</span><br><span class="line">		c.String(http.StatusInternalServerError, err.Error())</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	}</span><br><span class="line">	c.String(http.StatusOK, result)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>The <code>HandleCoffee()</code> function in <code>coffee_service.go</code> handles the main logic:</p>
+<figure class="highlight golang"><figcaption><span>coffee_service.go</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> services</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	coffee = <span class="string">"Cappuccino"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">HandleCoffee</span><span class="params">()</span> <span class="params">(<span class="keyword">string</span>, error)</span></span> {</span><br><span class="line">	fmt.Println(<span class="string">"doing complex things here..."</span>)</span><br><span class="line">	<span class="keyword">return</span> coffee, <span class="literal">nil</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Now run the application using <code>go run main.go</code> and call the API using <code>curl localhost:8080/coffee</code> or <code>curl localhost:8080/coffee -v</code>:</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">~/Projects/GoProjects/golang-unit-test » curl localhost:8080/coffee       </span><br><span class="line">Cappuccino% </span><br><span class="line"></span><br><span class="line">~/Projects/GoProjects/golang-unit-test » curl localhost:8080/coffee -v</span><br><span class="line">*   Trying ::1...</span><br><span class="line">* TCP_NODELAY <span class="built_in">set</span></span><br><span class="line">* Connected to localhost (::1) port 8080 (<span class="comment">#0)</span></span><br><span class="line">&gt; GET /coffee HTTP/1.1</span><br><span class="line">&gt; Host: localhost:8080</span><br><span class="line">&gt; User-Agent: curl/7.64.1</span><br><span class="line">&gt; Accept: */*</span><br><span class="line">&gt; </span><br><span class="line">&lt; HTTP/1.1 200 OK</span><br><span class="line">&lt; Content-Type: text/plain; charset=utf-8</span><br><span class="line">&lt; Date: Sun, 19 Sep 2021 14:49:59 GMT</span><br><span class="line">&lt; Content-Length: 4</span><br><span class="line">&lt; </span><br><span class="line">* Connection <span class="comment">#0 to host localhost left intact</span></span><br><span class="line">Cappuccino* Closing connection 0</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="Basic-Test"><a href="#Basic-Test" class="headerlink" title="Basic Test"></a>Basic Test</h3><p>Let’s write a basic test to verify the error code and the result:</p>
+<figure class="highlight golang"><figcaption><span>coffee_controller_test.go</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> controllers</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"net/http"</span></span><br><span class="line">	<span class="string">"net/http/httptest"</span></span><br><span class="line">	<span class="string">"testing"</span></span><br><span class="line">	<span class="string">"github.com/gin-gonic/gin"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestCoffee</span><span class="params">(t *testing.T)</span></span> {</span><br><span class="line">	response := httptest.NewRecorder()</span><br><span class="line">	context, _ := gin.CreateTestContext(response)</span><br><span class="line"></span><br><span class="line">	GetCoffee(context)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> response.Code != http.StatusOK {</span><br><span class="line">		t.Error(<span class="string">"response should be 200"</span>)</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> response.Body.String() != <span class="string">"Cappuccino"</span> {</span><br><span class="line">		t.Error(<span class="string">"response should say 'Cappuccino'"</span>)</span><br><span class="line">	}</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Let’s run the test with coverage:</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">~/Projects/GoProjects/golang-unit-test/code/controllers(master*) » go test . -v -cover</span><br><span class="line">=== RUN   TestCoffee</span><br><span class="line">[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.</span><br><span class="line"> - using env:   export GIN_MODE=release</span><br><span class="line"> - using code:  gin.SetMode(gin.ReleaseMode)</span><br><span class="line"></span><br><span class="line">doing complex things here...</span><br><span class="line">--- PASS: TestCoffee (0.00s)</span><br><span class="line">PASS</span><br><span class="line">coverage: 75.0% of statements</span><br><span class="line">ok      github.com/deeheem/goland-unit-test/code/controllers    0.645s  coverage: 75.0% of statements</span><br></pre></td></tr></tbody></table></figure>
+
+<p>We see that as expected, our test does pass. But only 75% of the lines were covered. This is because our test doesn’t cover the error scenario, and the following lines from <code>coffee_service.go</code> are not evaluated:</p>
+<figure class="highlight golang"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> {</span><br><span class="line">	c.String(http.StatusInternalServerError, err.Error())</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>We want to develop a test case that tests this scenario as well. In order to do that we need to have complete and full control over what this <code>HandleCoffee()</code> function returns. Because Go is a compiled language, you cannot mock what this function actually does once this code is compiled.</p>
+<p>So, the first thing that we need to keep in mind when writing mockable code is that if we put a package function, we are not going to be able to mock this function. So we need to make sure that we always use interfaces where we want to mock.</p>
+<p>Before adding an interface though, let’s add a struct in the next section.</p>
+<h3 id="Adding-struct"><a href="#Adding-struct" class="headerlink" title="Adding struct"></a>Adding struct</h3><p>We add a struct called <code>coffeeService</code> and bind the function <code>HandleCoffee()</code> to this service, making it a method.</p>
+<figure class="highlight golang"><figcaption><span>coffee_service.go</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> services</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> coffeeService <span class="keyword">struct</span>{}</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	coffee = <span class="string">"Cappuccino"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	CoffeeService = coffeeService{} <span class="comment">// public variable to access the service</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(service coffeeService)</span> <span class="title">HandleCoffee</span><span class="params">()</span> <span class="params">(<span class="keyword">string</span>, error)</span></span> {</span><br><span class="line">	fmt.Println(<span class="string">"doing complex things here..."</span>)</span><br><span class="line">	<span class="keyword">return</span> coffee, <span class="literal">nil</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Note that we have added a public variable <code>CoffeeService</code> so that other packages (like controllers) can use it to access the service.</p>
+<h3 id="Adding-interface"><a href="#Adding-interface" class="headerlink" title="Adding interface"></a>Adding interface</h3><p>Next we add the interface <code>coffeeService</code> and rename our struct to <code>coffeeServiceImpl</code>, indicating that this struct now implements the interface.</p>
+<figure class="highlight golang"><figcaption><span>coffee_service.go</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> services</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> coffeeService <span class="keyword">interface</span> {</span><br><span class="line">	HandleCoffee() (<span class="keyword">string</span>, error)</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> coffeeServiceImpl <span class="keyword">struct</span>{}</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	coffee = <span class="string">"Cappuccino"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	CoffeeService = coffeeServiceImpl{}</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(service coffeeServiceImpl)</span> <span class="title">HandleCoffee</span><span class="params">()</span> <span class="params">(<span class="keyword">string</span>, error)</span></span> {</span><br><span class="line">	fmt.Println(<span class="string">"doing complex things here..."</span>)</span><br><span class="line">	<span class="keyword">return</span> coffee, <span class="literal">nil</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="Modifying-the-test"><a href="#Modifying-the-test" class="headerlink" title="Modifying the test"></a>Modifying the test</h3><p>Now we modify our test as shown below:</p>
+<figure class="highlight golang"><figcaption><span>coffee_controller_test.go</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> controllers</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"net/http"</span></span><br><span class="line">	<span class="string">"net/http/httptest"</span></span><br><span class="line">	<span class="string">"testing"</span></span><br><span class="line">	<span class="string">"github.com/deeheem/goland-unit-test/code/services"</span></span><br><span class="line">	<span class="string">"github.com/gin-gonic/gin"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> coffeeServiceMock <span class="keyword">struct</span> {</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(mock coffeeServiceMock)</span> <span class="title">HandleCoffee</span><span class="params">()</span> <span class="params">(<span class="keyword">string</span>, error)</span></span> {</span><br><span class="line">	fmt.Println(<span class="string">"mocking complex things..."</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"Cappuccino"</span>, <span class="literal">nil</span></span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestCoffee</span><span class="params">(t *testing.T)</span></span> {</span><br><span class="line">    services.CoffeeService = coffeeServiceMock{} <span class="comment">// overriding actual service</span></span><br><span class="line">    </span><br><span class="line">    response := httptest.NewRecorder()</span><br><span class="line">    context, _ := gin.CreateTestContext(response)</span><br><span class="line"></span><br><span class="line">    GetCoffee(context)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> response.Code != http.StatusOK {</span><br><span class="line">        t.Error(<span class="string">"response should be 200"</span>)</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> response.Body.String() != <span class="string">"Cappuccino"</span> {</span><br><span class="line">        t.Error(<span class="string">"response should say 'Cappuccino'"</span>)</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>We are using the same interface we created in the service to create a mock. We provide a custom implementation of this mock in the test itself, and then override this mock implementation in the test case so it gets used during the test run (instead of the actual service implementation). </p>
+<p>This can be verified when we see the line <code>mocking complex things...</code> being printed instead of <code>doing complex things here...</code> while running the test case. On commenting the line <code>services.CoffeeService = coffeeServiceMock{}</code> in the test, we will again see <code>doing complex things here...</code> being printed as the mock implementation will not be used anymore.</p>
+<h3 id="Making-code-coverage-100"><a href="#Making-code-coverage-100" class="headerlink" title="Making code coverage 100%"></a>Making code coverage 100%</h3><p>If we run the test, our code coverage is still 75% due to the same reasons discussed earlier. Although, we now have extensible code where we can provide a custom implementation of the <code>HandleCoffee()</code> method in order to test the error scenario as well.</p>
+<figure class="highlight golang"><figcaption><span>coffee_controller_test.go</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> controllers</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"net/http"</span></span><br><span class="line">	<span class="string">"net/http/httptest"</span></span><br><span class="line">	<span class="string">"testing"</span></span><br><span class="line">	<span class="string">"github.com/deeheem/goland-unit-test/code/services"</span></span><br><span class="line">	<span class="string">"github.com/gin-gonic/gin"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> coffeeServiceMock <span class="keyword">struct</span> {</span><br><span class="line">    handleCoffeeFn <span class="function"><span class="keyword">func</span><span class="params">()</span> <span class="params">(<span class="keyword">string</span>, error)</span></span></span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(mock coffeeServiceMock)</span> <span class="title">HandleCoffee</span><span class="params">()</span> <span class="params">(<span class="keyword">string</span>, error)</span></span> {</span><br><span class="line">    <span class="keyword">return</span> mock.handleCoffeeFn()</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestCoffeeNoError</span><span class="params">(t *testing.T)</span></span> {</span><br><span class="line">    serviceMock := coffeeServiceMock{}</span><br><span class="line">    serviceMock.handleCoffeeFn = <span class="function"><span class="keyword">func</span><span class="params">()</span> <span class="params">(<span class="keyword">string</span>, error)</span></span> {</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Cappuccino"</span>, <span class="literal">nil</span></span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    services.CoffeeService = serviceMock</span><br><span class="line">    </span><br><span class="line">    response := httptest.NewRecorder()</span><br><span class="line">    context, _ := gin.CreateTestContext(response)</span><br><span class="line">    </span><br><span class="line">    GetCoffee(context)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> response.Code != http.StatusOK {</span><br><span class="line">        t.Error(<span class="string">"response should be 200"</span>)</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> response.Body.String() != <span class="string">"Cappuccino"</span> {</span><br><span class="line">        t.Error(<span class="string">"response should say 'Cappuccino'"</span>)</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestCoffeeWithError</span><span class="params">(t *testing.T)</span></span> {</span><br><span class="line">    serviceMock := coffeeServiceMock{}</span><br><span class="line">    serviceMock.handleCoffeeFn = <span class="function"><span class="keyword">func</span><span class="params">()</span> <span class="params">(<span class="keyword">string</span>, error)</span></span> {</span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span>, errors.New(<span class="string">"error getting coffee"</span>)</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    services.CoffeeService = serviceMock</span><br><span class="line">    </span><br><span class="line">    response := httptest.NewRecorder()</span><br><span class="line">    context, _ := gin.CreateTestContext(response)</span><br><span class="line">    </span><br><span class="line">    GetCoffee(context)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> response.Code != http.StatusInternalServerError {</span><br><span class="line">        t.Error(<span class="string">"response should be 500"</span>)</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> response.Body.String() != <span class="string">"error getting coffee"</span> {</span><br><span class="line">        t.Error(<span class="string">"response should say 'error'"</span>)</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>We added an attribute <code>handleCoffeeFn</code> inside the custom implementation of the CoffeeService interface, i.e. <code>coffeeServiceMock</code>. This attribute helps us plugin different implementations of HandleCoffee() method as per test case requirements.</p>
+<p>Now if we run the test with coverage, we get a 100% result:</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">~/Projects/GoProjects/golang-unit-test/code/controllers(master*) » go test . -v -cover</span><br><span class="line">=== RUN   TestCoffeeWithError</span><br><span class="line">[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.</span><br><span class="line"> - using env:   export GIN_MODE=release</span><br><span class="line"> - using code:  gin.SetMode(gin.ReleaseMode)</span><br><span class="line"></span><br><span class="line">--- PASS: TestCoffeeWithError (0.00s)</span><br><span class="line">=== RUN   TestCoffeeNoError</span><br><span class="line">[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.</span><br><span class="line"> - using env:   export GIN_MODE=release</span><br><span class="line"> - using code:  gin.SetMode(gin.ReleaseMode)</span><br><span class="line"></span><br><span class="line">--- PASS: TestCoffeeNoError (0.00s)</span><br><span class="line">PASS</span><br><span class="line">coverage: 100.0% of statements</span><br><span class="line">ok      github.com/deeheem/goland-unit-test/code/controllers    1.031s  coverage: 100.0% of statements</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="Learnings"><a href="#Learnings" class="headerlink" title="Learnings"></a>Learnings</h2><p>In order to write testable code in Go, we need to keep the following points in mind:</p>
+<ol>
+<li>Implement functions not as functions, but as methods, i.e. use structs</li>
+<li>Define an interface that defines every method we need in the struct</li>
+<li>Inside every test case, specify the behaviour you expect from the mocked object. This makes it easy for you to have control over what the function call actually returns.</li>
+</ol>
+<h2 id="Mocking-Frameworks"><a href="#Mocking-Frameworks" class="headerlink" title="Mocking Frameworks"></a>Mocking Frameworks</h2><p>Like every other programming language, Go also has various libraries and packages to help generate mocks and write tests.</p>
+<p>But if you are new to testing, let’s first understand why there is a need for mocking frameworks in the first place.</p>
+<h3 id="Need-for-Mocking-Frameworks"><a href="#Need-for-Mocking-Frameworks" class="headerlink" title="Need for Mocking Frameworks"></a>Need for Mocking Frameworks</h3><p>Say that you are testing your code that is still in development. In order to achieve the right results, you need to test its interactions with system resources, outside applications, and other dependencies. Unfortunately, you learn early on that that is not possible. Utilizing a mocking framework allows for realistic emulations of the required interactions.</p>
+<p>Mocked objects take the place of any large/complex/external objects your code needs access to in order to run.</p>
+<p>They are beneficial for a few reasons:</p>
+<ol>
+<li>Your tests are meant to run fast and easily. If your code depends on, say, a database connection then you would need to have a fully configured and populated database running in order to run your tests. This can get annoying, so you create a replacement - a “mock” - of the database connection object that just simulates the database.</li>
+<li>You can control exactly what output comes out of the Mock objects and can therefore use them as controllable data sources for your tests.</li>
+<li>You can create the mock before you create the real object in order to refine its interface. This is useful in Test-driven Development.</li>
+</ol>
+<h3 id="Mocking-Frameworks-in-Go"><a href="#Mocking-Frameworks-in-Go" class="headerlink" title="Mocking Frameworks in Go"></a>Mocking Frameworks in Go</h3><p>In a typical business application with a lot of code, writing mocks can easily increase the development time. Fortunately, the following tools come in very handy in Go for writing unit tests:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/golang/mock">golang/mock</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/stretchr/testify">testify/mock</a></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/vektra/mockery">mockery</a> is an awesome tool to easily generate mocks for golang interfaces. It uses the <a target="_blank" rel="noopener" href="https://github.com/stretchr/testify">testify/mock</a> package internally.</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tasting-read-Testing-Coffee"><span class="toc-number">2.</span> <span class="toc-text">Tasting (read: Testing) Coffee</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Code-Walkthrough"><span class="toc-number">2.1.</span> <span class="toc-text">Code Walkthrough</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Basic-Test"><span class="toc-number">2.2.</span> <span class="toc-text">Basic Test</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Adding-struct"><span class="toc-number">2.3.</span> <span class="toc-text">Adding struct</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Adding-interface"><span class="toc-number">2.4.</span> <span class="toc-text">Adding interface</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Modifying-the-test"><span class="toc-number">2.5.</span> <span class="toc-text">Modifying the test</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Making-code-coverage-100"><span class="toc-number">2.6.</span> <span class="toc-text">Making code coverage 100%</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Learnings"><span class="toc-number">3.</span> <span class="toc-text">Learnings</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mocking-Frameworks"><span class="toc-number">4.</span> <span class="toc-text">Mocking Frameworks</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Need-for-Mocking-Frameworks"><span class="toc-number">4.1.</span> <span class="toc-text">Need for Mocking Frameworks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mocking-Frameworks-in-Go"><span class="toc-number">4.2.</span> <span class="toc-text">Mocking Frameworks in Go</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/&amp;text=Writing Mockable Code in Go"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/&amp;title=Writing Mockable Code in Go"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/&amp;is_video=false&amp;description=Writing Mockable Code in Go"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Writing Mockable Code in Go&amp;body=Check out this article: http://codecoffeecommit.com/blog/writing-mockable-code-in-go/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/&amp;title=Writing Mockable Code in Go"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/&amp;title=Writing Mockable Code in Go"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/&amp;title=Writing Mockable Code in Go"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/&amp;title=Writing Mockable Code in Go"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/&amp;name=Writing Mockable Code in Go&amp;description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://codecoffeecommit.com/blog/writing-mockable-code-in-go/&amp;t=Writing Mockable Code in Go"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright ©
+    
+    
+    2017-2022
+    Deeheem Ansari
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-203770300-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-203770300-1');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'codecoffeecommit';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+
+
+</body></html>
