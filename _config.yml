@@ -107,6 +107,7 @@ deploy:
   type: git
   repo: git@github.com:deeheem/deeheem.github.io.git
   branch: master
+  token: $GITHUB_TOKEN
 
 # Github Emojis
 ## Emoji Cheat Sheet: https://www.webfx.com/tools/emoji-cheat-sheet/

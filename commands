@@ -15,3 +15,8 @@ hexo deploy
 
 # Check links
 npx hexo check-links
+
+# Update GitHub token
+Generate token: https://github.com/settings/tokens
+Update in Keychain Access for 'github.com'
+Update env variable $GITHUB_TOKEN
