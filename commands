@@ -1,0 +1,5 @@
+npm run server
+
+hexo new page about
+
+hexo new post "hello world"
