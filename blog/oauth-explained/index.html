@@ -1,0 +1,558 @@
+<!DOCTYPE html><html lang="en"><head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <meta name="description" content="&amp;#x2755; This is Part 2 of a two-part blog series on OAuth.&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Part 1: Why OAuth focuses on the need for OAuth.&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Part 2: OAuth in Detail goes deep into the wo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OAuth for Dummies [Part 2] OAuth in Detail">
+<meta property="og:url" content="http://codecoffeecommit.com/blog/oauth-explained/index.html">
+<meta property="og:site_name" content="Code Coffee Commit">
+<meta property="og:description" content="&amp;#x2755; This is Part 2 of a two-part blog series on OAuth.&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Part 1: Why OAuth focuses on the need for OAuth.&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Part 2: OAuth in Detail goes deep into the wo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://codecoffeecommit.com/blog/oauth-explained/oauth-2-protocol-endpoints.jpg">
+<meta property="og:image" content="http://codecoffeecommit.com/blog/oauth-explained/oauth-2-auth-code-1.jpg">
+<meta property="og:image" content="http://codecoffeecommit.com/blog/oauth-explained/oauth-2-auth-code-2.png">
+<meta property="og:image" content="http://codecoffeecommit.com/blog/oauth-explained/oauth-2-auth-code-3.jpg">
+<meta property="og:image" content="http://codecoffeecommit.com/blog/oauth-explained/oauth-2-auth-code-4.jpg">
+<meta property="og:image" content="http://codecoffeecommit.com/blog/oauth-explained/oauth-2-auth-code-5.jpg">
+<meta property="og:image" content="http://codecoffeecommit.com/blog/oauth-explained/oauth-2-auth-code-6.jpg">
+<meta property="og:image" content="http://codecoffeecommit.com/blog/oauth-explained/oauth-2-cc-flow.jpg">
+<meta property="og:image" content="http://codecoffeecommit.com/blog/oauth-explained/oauth-2-refresh-token-1.jpg">
+<meta property="og:image" content="http://codecoffeecommit.com/blog/oauth-explained/oauth-2-refresh-token-2.png">
+<meta property="og:image" content="http://codecoffeecommit.com/blog/oauth-explained/oauth-2-refresh-token-3.jpg">
+<meta property="og:image" content="http://codecoffeecommit.com/blog/oauth-explained/oauth-2-refresh-token-4.jpg">
+<meta property="article:published_time" content="2021-08-23T01:57:15.000Z">
+<meta property="article:modified_time" content="2023-12-09T01:43:24.128Z">
+<meta property="article:author" content="Deeheem Ansari">
+<meta property="article:tag" content="#oauth">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://codecoffeecommit.com/blog/oauth-explained/oauth-2-protocol-endpoints.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>OAuth for Dummies [Part 2] OAuth in Detail</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" "top"="" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post " href="/blog/writing-mockable-code-in-go/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post " href="/blog/why-oauth/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://codecoffeecommit.com/blog/oauth-explained/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://codecoffeecommit.com/blog/oauth-explained/&amp;text=OAuth for Dummies [Part 2] OAuth in Detail"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://codecoffeecommit.com/blog/oauth-explained/&amp;title=OAuth for Dummies [Part 2] OAuth in Detail"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://codecoffeecommit.com/blog/oauth-explained/&amp;is_video=false&amp;description=OAuth for Dummies [Part 2] OAuth in Detail"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=OAuth for Dummies [Part 2] OAuth in Detail&amp;body=Check out this article: http://codecoffeecommit.com/blog/oauth-explained/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://codecoffeecommit.com/blog/oauth-explained/&amp;title=OAuth for Dummies [Part 2] OAuth in Detail"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://codecoffeecommit.com/blog/oauth-explained/&amp;title=OAuth for Dummies [Part 2] OAuth in Detail"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://codecoffeecommit.com/blog/oauth-explained/&amp;title=OAuth for Dummies [Part 2] OAuth in Detail"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://codecoffeecommit.com/blog/oauth-explained/&amp;title=OAuth for Dummies [Part 2] OAuth in Detail"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://codecoffeecommit.com/blog/oauth-explained/&amp;name=OAuth for Dummies [Part 2] OAuth in Detail&amp;description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://codecoffeecommit.com/blog/oauth-explained/&amp;t=OAuth for Dummies [Part 2] OAuth in Detail"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Protocol-Endpoints"><span class="toc-number">1.</span> <span class="toc-text">Protocol Endpoints</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OAuth-Scope"><span class="toc-number">2.</span> <span class="toc-text">OAuth Scope</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Authorization-Code-Grant-Type"><span class="toc-number">3.</span> <span class="toc-text">Authorization Code Grant Type</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Flow"><span class="toc-number">3.1.</span> <span class="toc-text">Flow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example"><span class="toc-number">3.2.</span> <span class="toc-text">Example</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Client-Credentials-Grant-Type"><span class="toc-number">4.</span> <span class="toc-text">The Client Credentials Grant Type</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Flow-1"><span class="toc-number">4.1.</span> <span class="toc-text">Flow</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Long-lived-access-with-Refresh-Tokens"><span class="toc-number">5.</span> <span class="toc-text">Long-lived access with Refresh Tokens</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-1"><span class="toc-number">5.1.</span> <span class="toc-text">Example</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Extending-OAuth"><span class="toc-number">6.</span> <span class="toc-text">Extending OAuth</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        OAuth for Dummies [Part 2] OAuth in Detail
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">Deeheem Ansari</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-08-23T01:57:15.000Z" itemprop="datePublished">2021-08-22</time>
+        
+      
+    </div>
+
+
+      <span class="article-time">
+        <i class="fa fa-clock"></i>
+        9 min read
+      </span>
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Security/">Security</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/oauth/" rel="tag">#oauth</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><em><span class="github-emoji" alias="grey_exclamation" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2755.png?v8">❕</span> This is Part 2 of a two-part blog series on OAuth.</em><br><em>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/blog/why-oauth/" title="Part 1: Why OAuth">Part 1: Why OAuth</a> focuses on the need for OAuth.</em><br><em>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/blog/oauth-explained/" title="Part 2: OAuth in Detail">Part 2: OAuth in Detail</a> goes deep into the workings of OAuth.</em></p>
+<h2 id="Protocol-Endpoints"><a href="#Protocol-Endpoints" class="headerlink" title="Protocol Endpoints"></a>Protocol Endpoints</h2><p>There are two types of endpoints in an Authorization Server:</p>
+<ol>
+<li>Authorization endpoints - They handle all user interaction via the user agent (browser).</li>
+<li>Token endpoints - They are meant for machines only, for interacting away from the browser via a secure API call.</li>
+</ol>
+<p>Both these layers must use TLS.<br>The location of these endpoints must be known to the client applications before they can be used as the authorization server.</p>
+<div style="width: 550px; margin: auto;">
+    
+    <div>
+      <img src="/blog/oauth-explained/oauth-2-protocol-endpoints.jpg" alt="" data-action="zoom" class="photozoom">
+      
+    </div>
+</div>
+
+<h2 id="OAuth-Scope"><a href="#OAuth-Scope" class="headerlink" title="OAuth Scope"></a>OAuth Scope</h2><p>OAuth Scope refers to the permission to do something from within a protected resource on behalf of the resource owner.</p>
+<p>Examples of scopes:</p>
+<ul>
+<li>bitterbrew_api</li>
+<li>bitterbrew_api.read</li>
+<li>bitterbrew_api.feed</li>
+</ul>
+<h2 id="Authorization-Code-Grant-Type"><a href="#Authorization-Code-Grant-Type" class="headerlink" title="Authorization Code Grant Type"></a>Authorization Code Grant Type</h2><h3 id="Flow"><a href="#Flow" class="headerlink" title="Flow"></a>Flow</h3><p>The Authorization Code Grant Type is:</p>
+<ul>
+<li>designed for “confidential access”</li>
+<li>best for websites with a server backend</li>
+<li>explicit user &amp; client authentication</li>
+</ul>
+<p>Let’s take a look at how a typical Authorization Request would look like:</p>
+<figure class="highlight plaintext"><figcaption><span>Authorization Request</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">https://authserver.example.com/authorize</span><br><span class="line">    ?response_type=code</span><br><span class="line">    &amp;client_id=s6Bhdjk3H</span><br><span class="line">    &amp;redirect_uri=https://client.example.com/callback</span><br><span class="line">    &amp;state=xyz</span><br><span class="line">    &amp;scope api1 api2.read</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li><code>response_type=code</code> signals the Authorization Server to use the authorization code flow</li>
+<li><code>client_id</code> is a unique ID for the client app</li>
+<li><code>redirect_uri</code> is where the auth endpoint will redirect to once it has finished<br>interacting with the resource owner. This endpoint must have been previously<br>registered within the Authorization Server.</li>
+<li><code>state</code>‘s value will be echoed back to us in the response. This offers us a couple of things:<ul>
+<li>A way to round trip information</li>
+<li>A simple way of verifying the response we receive is actually intended for us, giving us some basic defence against XSRF and unsolicited tokens.<br>The value should not be guessable. It is an optional parameter, but a recommended one.</li>
+</ul>
+</li>
+<li><code>scope</code> gives the client app a way to explicitly specify what permissions they want, i.e. what they want to do on behalf of the user. It is a space-delimited string. If not included in the request, the authorization server will fall back to a default set of scopes. Could be a global default or default for this particular client application or application type.</li>
+</ul>
+<p>Once the resource owner authenticates and consents, the Authorization Server will then redirect to the client app’s redirect URI along with the following query params:</p>
+<figure class="highlight plaintext"><figcaption><span>Authorization Response</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https://client.example.com/callback</span><br><span class="line">    ?code=KHSjdesjd38dufhkjszhH</span><br><span class="line">    &amp;state=xyz</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li><code>code</code> is the authorization code that is synonymous with the grant type, and represents that the user consents to the authorization (physical representation of the Authorization Grant)<ul>
+<li>Has a very short lifetime</li>
+<li>Is bound to client id, redirect URI, resource owner and the scopes the application has been delegated</li>
+</ul>
+</li>
+<li><code>state</code> must match the value we used in the Authorization Request</li>
+</ul>
+<p>We now have the Authorization Code. Let’s move away from the browser and swap the code for an Access Token using the Authorization Server’s token endpoint.</p>
+<p>The token request is made via a POST HTTP request to facilitate the transfer of confidential data using TLS.</p>
+<figure class="highlight plaintext"><figcaption><span>Token Request</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST /token HTTP 1.1</span><br><span class="line">    Host: server.example.com</span><br><span class="line">    Content-Type: application/x-www-form-urlencoded</span><br><span class="line">    </span><br><span class="line">    grant_type=authorization_code</span><br><span class="line">    &amp;code=KHSjdesjd38dufhkjszhH</span><br><span class="line">    &amp;redirect_uri=https://client.example.com/cb</span><br><span class="line">    &amp;client_id=kKDJ38zdnksnja</span><br><span class="line">    &amp;client_secret=dskf8dshKJf</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Note that there’s a slight difference between the encoding style for Basic Authentication and OAuth:</p>
+<p><strong>Basic Authentication Style (RFC 7617)</strong><br><code>Base64(client_id + ":" + client_secret)</code></p>
+<p><strong>OAuth Style (RFC 6749)</strong><br><code>Base64(urlformencode(client_id) + ":" urlformencode(client_secret))</code></p>
+<p>The token response received from the Authorization Server looks something like this:</p>
+<figure class="highlight plaintext"><figcaption><span>Token Response</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">    Content-Type: application/json</span><br><span class="line">{    </span><br><span class="line">    "access_token": "jshdas7JKAshDKYsd893",</span><br><span class="line">    "token_type": "Bearer",</span><br><span class="line">    "expired_in": 3600,</span><br><span class="line">    "scope": "api2.read"</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Token type and the access token are used to access the protected resource.</p>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p>Let’s trigger a request for fetching the authorization code:</p>
+
+    <div>
+      <img src="/blog/oauth-explained/oauth-2-auth-code-1.jpg" alt="" data-action="zoom" class="photozoom">
+      
+    </div>
+
+<p>We are redirected to the Bitter Brew site, do note the request details below:</p>
+
+    <div>
+      <img src="/blog/oauth-explained/oauth-2-auth-code-2.png" alt="" data-action="zoom" class="photozoom">
+      
+    </div>
+
+<p>After authenticating, we are taken to the consent screen:</p>
+
+    <div>
+      <img src="/blog/oauth-explained/oauth-2-auth-code-3.jpg" alt="" data-action="zoom" class="photozoom">
+      
+    </div>
+
+<p>Accepting the permissions takes us back to the redirect URL:</p>
+
+    <div>
+      <img src="/blog/oauth-explained/oauth-2-auth-code-4.jpg" alt="" data-action="zoom" class="photozoom">
+      
+    </div>
+
+<p>We can see the code has been sent and the state matches the state we issued. We then swap the code with the token by calling the token endpoint:</p>
+
+    <div>
+      <img src="/blog/oauth-explained/oauth-2-auth-code-5.jpg" alt="" data-action="zoom" class="photozoom">
+      
+    </div>
+
+<p>Note the expiry of the token is in 1 hour’s time. Also note that we normally don’t expose the tokens on the browser in this way, instead keep them safe and secret using some mechanism driven by our backend server.</p>
+<p>Finally using this token we call the rewards API on behalf of the user.</p>
+
+    <div>
+      <img src="/blog/oauth-explained/oauth-2-auth-code-6.jpg" alt="" data-action="zoom" class="photozoom">
+      
+    </div>
+
+<h2 id="The-Client-Credentials-Grant-Type"><a href="#The-Client-Credentials-Grant-Type" class="headerlink" title="The Client Credentials Grant Type"></a>The Client Credentials Grant Type</h2><p>What if there is no clear resource owner? What if we are dealing with a client application that has no users involved? Can we still protect an API using the OAuth Authorization Server? Or do we need to fall back to something like API Keys or even HTTP basic authentication?</p>
+<p>This is where the Client Credentials Grant Type can be used.</p>
+<p>Client Credentials Grant Type is:</p>
+<ul>
+<li>designed for client applications who are the resource owner</li>
+<li>best for machine-to-machine communication</li>
+<li>requires client authentication</li>
+</ul>
+<h3 id="Flow-1"><a href="#Flow-1" class="headerlink" title="Flow"></a>Flow</h3>
+    <div>
+      <img src="/blog/oauth-explained/oauth-2-cc-flow.jpg" alt="" data-action="zoom" class="photozoom">
+      
+    </div>
+
+<figure class="highlight plaintext"><figcaption><span>Token Request</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST /token HTTP 1.1</span><br><span class="line">    Host: server.example.com</span><br><span class="line">    Content-Type: application/x-www-form-urlencoded</span><br><span class="line">    Authorization: Basic skhf7Jbsdf3ofsdfdflkjn</span><br><span class="line">    </span><br><span class="line">    grant_type=client_credentials</span><br><span class="line">    &amp;scope=api1 api2.read</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight plaintext"><figcaption><span>Token Response</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">    Content-Type: application/json</span><br><span class="line">{    </span><br><span class="line">    "access_token": "jshdas7JKAshDKYsd893",</span><br><span class="line">    "token_type": "Bearer",</span><br><span class="line">    "expired_in": 3600,</span><br><span class="line">    "scope": "api2.read"</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>For those paying attention, the benefits of OAuth over API keys or HTTP Basic Auth become a little less obvious in this case. However, we do have some advantages:</p>
+<ol>
+<li>Application credentials are not sent with every single request to the protected resource. Instead, they’re only sent on the token request. This significantly reduces the attack surface.</li>
+<li>By using short-lived access tokens, we gain the ability to remove the credentials from the request.</li>
+<li>It also reduces the amount of time any stolen tokens might be useful. (compared to an API key, which would probably live for months). It also does not require any manual intervention to update.</li>
+</ol>
+<h2 id="Long-lived-access-with-Refresh-Tokens"><a href="#Long-lived-access-with-Refresh-Tokens" class="headerlink" title="Long-lived access with Refresh Tokens"></a>Long-lived access with Refresh Tokens</h2><p>What happens when the tokens expire? This is where the Refresh Token comes into the picture. </p>
+<p>A refresh token is:</p>
+<ul>
+<li>Long-lived token</li>
+<li>Used by the client app and swapped for new access tokens</li>
+<li>Allows performing long-running background tasks without the user being present / or to simply save the user from reauthorizing the application every half hour</li>
+<li>Must be kept highly confidential – if it gets stolen, the thief can get access to the access token to access the APIs</li>
+<li>User should be made aware that refresh tokens are being requested</li>
+</ul>
+<figure class="highlight plaintext"><figcaption><span>Authorization Request</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">https://authserver.example.com/authorize</span><br><span class="line">    ?response_type=code</span><br><span class="line">    &amp;client_id=s6Bhdjk3H</span><br><span class="line">    &amp;redirect_uri=https://client.example.com/callback</span><br><span class="line">    &amp;state=xyz</span><br><span class="line">    &amp;scope api1 api2.read offline_access</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Note that <code>offline_access</code> scope has been added in the request.</p>
+<figure class="highlight plaintext"><figcaption><span>Token Response</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">    Content-Type: application/json</span><br><span class="line">{    </span><br><span class="line">    "access_token": "jshdas7JKAshDKYsd893",</span><br><span class="line">    "token_type": "Bearer",</span><br><span class="line">    "expired_in": 3600,</span><br><span class="line">    "refresh_token": "skfjhiw84jkezSKJ84"</span><br><span class="line">    "scope": "api2.read"</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Now the swapping of refresh token with new access token can be triggered either when one unauthorized response is received, or based on the expiration time returned in the token response.</p>
+<figure class="highlight plaintext"><figcaption><span>Refresh Token Request</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST /token HTTP 1.1</span><br><span class="line">    Host: server.example.com</span><br><span class="line">    Content-Type: application/x-www-form-urlencoded</span><br><span class="line">    Authorization: Basic skhf7Jbsdf3ofsdfdflkjn</span><br><span class="line">    </span><br><span class="line">    grant_type=refresh_token</span><br><span class="line">    &amp;scope=api1</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Note that the scope should only be included when requesting access to fewer scopes than what was initially delegated by the client application. Since the user is no longer present, it’s not possible to ask for more or different scopes than what we were originally delegated.</p>
+<figure class="highlight plaintext"><figcaption><span>Refresh Token Response</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">    Content-Type: application/json</span><br><span class="line">{    </span><br><span class="line">    "access_token": "jk6gcdHdjy76kljSDG",</span><br><span class="line">    "token_type": "Bearer",</span><br><span class="line">    "expired_in": 3600,</span><br><span class="line">    "refresh_token": "oih897GSG34khjb9"</span><br><span class="line">    "scope": "api2.read offline_access"</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>In the response, we receive the usual access token, and if requested, the refresh token too.</p>
+<p>Refresh tokens could be reusable or for one-time use. They could have set expiry or sliding expiry based on usage. It is entirely up to the Authorization Server to decide the Refresh Token policy for the client application.</p>
+<h3 id="Example-1"><a href="#Example-1" class="headerlink" title="Example"></a>Example</h3><p>Let’s start with our usual Authorization flow from where we land on to the Bitter Brew website:</p>
+
+    <div>
+      <img src="/blog/oauth-explained/oauth-2-refresh-token-1.jpg" alt="" data-action="zoom" class="photozoom">
+      
+    </div>
+
+<p>
+
+
+    </p><div>
+      <img src="/blog/oauth-explained/oauth-2-refresh-token-2.png" alt="" data-action="zoom" class="photozoom">
+      
+    </div>
+
+<p>Note the scope has an <code>offline_access</code> value as well.</p>
+
+    <div>
+      <img src="/blog/oauth-explained/oauth-2-refresh-token-3.jpg" alt="" data-action="zoom" class="photozoom">
+      
+    </div>
+
+<p>After allowing we get the refresh token in the response:</p>
+
+    <div>
+      <img src="/blog/oauth-explained/oauth-2-refresh-token-4.jpg" alt="" data-action="zoom" class="photozoom">
+      
+    </div>
+
+<p>Now, this Refresh Token can be used to get the Access Tokens as and when needed.</p>
+<h2 id="Extending-OAuth"><a href="#Extending-OAuth" class="headerlink" title="Extending OAuth"></a>Extending OAuth</h2><p>With that, I’ll wind up my two-part series on OAuth. We have just touched the tip of the iceberg and there is certainly a lot more to explore within OAuth.</p>
+<p>Leaving with some more resources to explore further:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://auth0.com/docs/protocols/openid-connect-protocol">OAuth + Identity with Open ID Connect</a></li>
+<li><a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc8414">RFC 8414</a> Automatically Configuring the Client with OAuth Metadata </li>
+<li><a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc8628">RFC 8628</a> Securing Authorizing the IOT with OAuth Device Flow</li>
+<li><a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc8414">RFC 8414</a> Combing SAML and OAuth with SAML Assertion Grant</li>
+<li><a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc8693">RFC 8693</a> Securing Microservices with Token Exchange</li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Protocol-Endpoints"><span class="toc-number">1.</span> <span class="toc-text">Protocol Endpoints</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OAuth-Scope"><span class="toc-number">2.</span> <span class="toc-text">OAuth Scope</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Authorization-Code-Grant-Type"><span class="toc-number">3.</span> <span class="toc-text">Authorization Code Grant Type</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Flow"><span class="toc-number">3.1.</span> <span class="toc-text">Flow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example"><span class="toc-number">3.2.</span> <span class="toc-text">Example</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Client-Credentials-Grant-Type"><span class="toc-number">4.</span> <span class="toc-text">The Client Credentials Grant Type</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Flow-1"><span class="toc-number">4.1.</span> <span class="toc-text">Flow</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Long-lived-access-with-Refresh-Tokens"><span class="toc-number">5.</span> <span class="toc-text">Long-lived access with Refresh Tokens</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-1"><span class="toc-number">5.1.</span> <span class="toc-text">Example</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Extending-OAuth"><span class="toc-number">6.</span> <span class="toc-text">Extending OAuth</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://codecoffeecommit.com/blog/oauth-explained/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://codecoffeecommit.com/blog/oauth-explained/&amp;text=OAuth for Dummies [Part 2] OAuth in Detail"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://codecoffeecommit.com/blog/oauth-explained/&amp;title=OAuth for Dummies [Part 2] OAuth in Detail"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://codecoffeecommit.com/blog/oauth-explained/&amp;is_video=false&amp;description=OAuth for Dummies [Part 2] OAuth in Detail"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=OAuth for Dummies [Part 2] OAuth in Detail&amp;body=Check out this article: http://codecoffeecommit.com/blog/oauth-explained/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://codecoffeecommit.com/blog/oauth-explained/&amp;title=OAuth for Dummies [Part 2] OAuth in Detail"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://codecoffeecommit.com/blog/oauth-explained/&amp;title=OAuth for Dummies [Part 2] OAuth in Detail"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://codecoffeecommit.com/blog/oauth-explained/&amp;title=OAuth for Dummies [Part 2] OAuth in Detail"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://codecoffeecommit.com/blog/oauth-explained/&amp;title=OAuth for Dummies [Part 2] OAuth in Detail"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://codecoffeecommit.com/blog/oauth-explained/&amp;name=OAuth for Dummies [Part 2] OAuth in Detail&amp;description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://codecoffeecommit.com/blog/oauth-explained/&amp;t=OAuth for Dummies [Part 2] OAuth in Detail"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright ©
+    
+    
+    2017-2023
+    Deeheem Ansari
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/blog/">Blog</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-203770300-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-203770300-1');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'codecoffeecommit';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+
+
+<script type="text/javascript">/**
+ * Pure JavaScript implementation of zoom.js.
+ *
+ * Original preamble:
+ * zoom.js - It's the best way to zoom an image
+ * @version v0.0.2
+ * @link https://github.com/fat/zoom.js
+ * @license MIT
+ *
+ * This is a fork of the original zoom.js implementation by @fat.
+ * Copyrights for the original project are held by @fat. All other copyright
+ * for changes in the fork are held by Nishanth Shanmugham.
+ *
+ * Copyright (c) 2013 @fat
+ * The MIT License. Copyright © 2016 Nishanth Shanmugham.
+ */
+!function(){"use strict";var t=function(){function t(t,e){for(var n=0;n<e.length;n++){var i=e[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(t,i.key,i)}}return function(e,n,i){return n&&t(e.prototype,n),i&&t(e,i),e}}();function e(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}!function(t){var e={};function n(i){if(e[i])return e[i].exports;var o=e[i]={i:i,l:!1,exports:{}};return t[i].call(o.exports,o,o.exports,n),o.l=!0,o.exports}n.m=t,n.c=e,n.i=function(t){return t},n.d=function(t,e,i){n.o(t,e)||Object.defineProperty(t,e,{configurable:!1,enumerable:!0,get:i})},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=3)}([function(t,e,n){n.d(e,"a",function(){return i}),n.d(e,"b",function(){return o}),n.d(e,"c",function(){return r}),n.d(e,"d",function(){return a});var i=function(){return document.documentElement.clientWidth},o=function(){return document.documentElement.clientHeight},r=function(t){var e=t.getBoundingClientRect(),n=document.documentElement,i=window;return{top:e.top+i.pageYOffset-n.clientTop,left:e.left+i.pageXOffset-n.clientLeft}},a=function(t,e,n){t.addEventListener(e,function t(i){i.target.removeEventListener(e,t),n()})}},function(t,e,n){var i=n(2),o=n(0);n.d(e,"a",function(){return g});var r=null,a=-1,s=-1,c=function(t){document.body.classList.contains("zoom-overlay-open")||(t.metaKey||t.ctrlKey?window.open(t.target.getAttribute("data-original")||t.target.src,"_blank"):t.target.width>=n.i(o.a)()-80||(u(!0),(r=new i.a(t.target,80)).zoom(),l()))},u=function(t){null!=r&&(t?r.dispose():r.close(),d(),r=null)},l=function(){document.addEventListener("scroll",m),document.addEventListener("keyup",f),document.addEventListener("touchstart",h),document.addEventListener("click",v,!0)},d=function(){document.removeEventListener("scroll",m),document.removeEventListener("keyup",f),document.removeEventListener("touchstart",h),document.removeEventListener("click",v,!0)},m=function(){-1==a&&(a=window.pageYOffset),Math.abs(a-window.pageYOffset)>=40&&u()},f=function(t){27==t.keyCode&&u()},h=function(t){var e=t.touches[0];null!=e&&(s=e.pageY,t.target.addEventListener("touchmove",p))},p=function t(e){var n=e.touches[0];null!=n&&Math.abs(n.pageY-s)>10&&(u(),e.target.removeEventListener("touchmove",t))},v=function(){u()},g=Object.create(null);g.setup=function(t){t.addEventListener("click",c)}},function(n,i,o){var r=o(0),a=function t(n,i){e(this,t),this.w=n,this.h=i},s=function(){function n(t,i){e(this,n),this.img=t,this.preservedTransform=t.style.transform,this.wrap=null,this.caption=null,this.overlay=null,this.offset=i}return t(n,[{key:"forceRepaint",value:function(){this.img.offsetWidth}},{key:"zoom",value:function(){var t=new a(this.img.naturalWidth,this.img.naturalHeight);this.wrap=document.createElement("div"),this.wrap.classList.add("zoom-img-wrap"),this.img.parentNode.insertBefore(this.wrap,this.img),this.wrap.appendChild(this.img),this.img.classList.add("zoom-img"),this.img.setAttribute("data-action","zoom-out"),this.overlay=document.createElement("div"),this.overlay.classList.add("zoom-overlay"),this.caption=document.createElement("span"),this.caption.innerHTML=this.img.getAttribute("alt"),this.caption.classList.add("zoom-caption"),this.overlay.appendChild(this.caption),document.body.appendChild(this.overlay),this.forceRepaint();var e=this.calculateScale(t);this.forceRepaint(),this.animate(e),document.body.classList.add("zoom-overlay-open")}},{key:"calculateScale",value:function(t){var e=t.w/this.img.width,n=o.i(r.a)()-this.offset,i=o.i(r.b)()-this.offset,a=t.w/t.h,s=n/i;return t.w<n&&t.h<i?e:a<s?i/t.h*e:n/t.w*e}},{key:"animate",value:function(t){var e=o.i(r.c)(this.img),n=window.pageYOffset,i=o.i(r.a)()/2,a=n+o.i(r.b)()/2,s="scale("+t+")",c="translate3d("+(i-(e.left+this.img.width/2))+"px, "+(a-(e.top+this.img.height/2))+"px, 0px)";this.img.style.transform=s,this.wrap.style.transform=c}},{key:"dispose",value:function(){null!=this.wrap&&null!=this.wrap.parentNode&&(this.img.classList.remove("zoom-img"),this.img.setAttribute("data-action","zoom"),this.wrap.parentNode.insertBefore(this.img,this.wrap),this.wrap.parentNode.removeChild(this.wrap),document.body.removeChild(this.overlay),document.body.classList.remove("zoom-overlay-transitioning"))}},{key:"close",value:function(){var t=this;document.body.classList.add("zoom-overlay-transitioning"),this.img.style.transform=this.preservedTransform,0===this.img.style.length&&this.img.removeAttribute("style"),this.wrap.style.transform="none",o.i(r.d)(this.img,"transitionend",function(){t.dispose(),document.body.classList.remove("zoom-overlay-open")})}}]),n}();i.a=s},function(t,e,n){Object.defineProperty(e,"__esModule",{value:!0});var i=n(1);document.addEventListener("DOMContentLoaded",function(){for(var t=document.querySelectorAll("img[data-action='zoom']"),e=0;e<t.length;e++)i.a.setup(t[e])})}])}();</script><style>img[data-action=zoom]{cursor:pointer;cursor:-webkit-zoom-in;cursor:-moz-zoom-in}.zoom-img,.zoom-img-wrap{position:relative;z-index:666;-webkit-transition:all .3s;-o-transition:all .3s;transition:all .3s}img.zoom-img{cursor:pointer;cursor:-webkit-zoom-out;cursor:-moz-zoom-out}.zoom-overlay{z-index:420;text-align:center;background:#fff;position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;filter:"alpha(opacity=0)";opacity:0;-webkit-transition:opacity .3s;-o-transition:opacity .3s;transition:opacity .3s}.zoom-overlay-open .zoom-overlay{filter:"alpha(opacity=100)";opacity:1}.zoom-overlay-open,.zoom-overlay-transitioning{cursor:default}.body-wrap-zoom{width:100vw}.zoom-caption{z-index:667;bottom:10px;position:fixed;left:10px;right:10px}.zoom-initial-caption{color:#999;display:block;font-size:.9em;margin-top:.5em;position:relative;text-align:center;}</style></body></html>
