@@ -101,9 +101,9 @@
       
         <tags>
             
-            <tag> #java </tag>
-            
             <tag> #python </tag>
+            
+            <tag> #java </tag>
             
         </tags>
       
@@ -157,9 +157,9 @@
       
         <tags>
             
-            <tag> #git </tag>
-            
             <tag> #java </tag>
+            
+            <tag> #git </tag>
             
             <tag> #unit_testing </tag>
             
