@@ -61,7 +61,7 @@ We developed a clever algorithm to tackle this:
    
 This algorithm allows us to simulate different levels of database activity and see how it impacts backup performance.
 
-# Exploring the Tools of the Trade
+## Exploring the Tools of the Trade
 In our quest for the most effective testing strategy, we explored several tools and libraries. Here's a quick look at what we considered:
 - [tpch-dbgen](https://github.com/electrum/tpch-dbgen): This is a tool used to generate data for the TPC-H benchmark, a standard for decision support systems. We found it suitable for generating seed data of a desired size for our databases.   
 - [YCSB (Yahoo! Cloud Serving Benchmark)](https://github.com/brianfrankcooper/YCSB): YCSB is another benchmark used for evaluating database systems. While it can generate seed data, it does so based on record count rather than database size. It also supports insert/update workloads for CDC record generation, but not deletes.   
@@ -69,7 +69,7 @@ In our quest for the most effective testing strategy, we explored several tools 
    
 Ultimately, we opted for a custom solution for CDC record generation to meet our specific requirements for control, speed, and accuracy. 
 
-# The Results: A More Performant Azure SQL
+## The Results: A More Performant Azure SQL
 All this hard work has paid off. Our testing has led to significant performance improvements in Azure SQL Database backups. We're now able to handle large databases and high transaction volumes with greater efficiency.
    
 But perhaps the biggest win is that we now have a robust and automated way to measure performance. This allows us to ensure that databases continue to evolve and meet the demands of modern applications.
